@@ -95,8 +95,12 @@ static NSMutableDictionary *_notificationDesign;
 
 - (CGFloat)padding
 {
-    // Adds 10 padding to to cover navigation bar
-    return self.messagePosition == TSMessageNotificationPositionNavBarOverlay ? TSMessageViewMinimumPadding + 10.0f : TSMessageViewMinimumPadding;
+    return TSMessageViewMinimumPadding;
+}
+
+- (CGFloat)topPadding
+{
+    return self.messagePosition == TSMessageNotificationPositionNavBarOverlay ? 15.f : 0.f;
 }
 
 - (id)initWithTitle:(NSString *)title
@@ -364,9 +368,10 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
     CGFloat currentHeight;
     CGFloat screenWidth = self.viewController.view.bounds.size.width;
     CGFloat padding = [self padding];
+    CGFloat topPadding = [self topPadding];
     
     self.titleLabel.frame = CGRectMake(self.textSpaceLeft,
-                                       padding,
+                                       padding + topPadding,
                                        screenWidth - padding - self.textSpaceLeft - self.textSpaceRight,
                                        0.0);
     [self.titleLabel sizeToFit];
@@ -400,7 +405,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         {
             // z-align
             self.iconImageView.center = CGPointMake([self.iconImageView center].x,
-                                                    round(currentHeight / 2.0));
+                                                    round(currentHeight / 2.0) + (topPadding / 2.0f));
         }
     }
     
