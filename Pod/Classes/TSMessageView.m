@@ -183,9 +183,15 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         else
         {
             // On iOS 7 and above use a blur layer instead (not yet finished)
-            _backgroundBlurView = [[TSBlurView alloc] init];
+
+            // ATTENTION, QUICK HACK!!!
+            // TSBlurView causes problems on iOS7 (flickering notification backgrounds), thus replacing this quick and dirty with a plain UIView.
+            // There are no TSBlurView specific references to _backgroundBlurView anywhere else in the code, so this is save (for now).
+            //            _backgroundBlurView = [[TSBlurView alloc] init];
+            _backgroundBlurView = (id)[[UIView alloc] init];
             self.backgroundBlurView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-            self.backgroundBlurView.blurTintColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
+            //            self.backgroundBlurView.blurTintColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
+            self.backgroundBlurView.backgroundColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
             [self addSubview:self.backgroundBlurView];
         }
         
